@@ -26,4 +26,22 @@ public class TransactionCommissionDtoHelper
             .clientId(42)
             .build();
    }
+
+   public static TransactionCommissionDto transactionCommission_EUR() {
+      return TransactionCommissionDto.builder()
+            .date(LocalDate.now())
+            .amount(new BigDecimal(100))
+            .currency("EUR")
+            .clientId(42)
+            .build();
+   }
+
+   public static TransactionCommissionDto transactionCommission_EUR_small_amount() {
+      return TransactionCommissionDto.builder()
+            .date(LocalDate.now())
+            .amount(new BigDecimal(1))
+            .currency("EUR")
+            .clientId(42)
+            .build();
+   }
 }

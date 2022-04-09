@@ -15,8 +15,9 @@ public class ExchangeRateHelper
       exchangeRates.put("USD", new BigDecimal("1.217582"));
       exchangeRates.put("PLN", new BigDecimal("4.570522"));
 
-      return ExchangeRateResult.builder()
-            .rates(exchangeRates)
-            .build();
+      ExchangeRateResult result = new ExchangeRateResult();
+      result.setRates(exchangeRates);
+
+      return result;
    }
 }
