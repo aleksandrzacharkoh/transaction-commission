@@ -1,13 +1,14 @@
 package org.zacharko.transaction.commission.service.impl;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.zacharko.transaction.commission.dto.TransactionCommissionDto;
 import org.zacharko.transaction.commission.dto.TransactionCommissionResultDto;
-import org.zacharko.transaction.commission.exception.CurrencyNotFoundException;
-import org.zacharko.transaction.commission.exception.ExchangeServiceUnreachableException;
+import org.zacharko.transaction.commission.mapper.TransactionMapper;
 import org.zacharko.transaction.commission.service.TransactionCommissionService;
+import org.zacharko.transaction.commission.service.TransactionService;
 import org.zacharko.transaction.commission.service.rule.CommissionCalculationRule;
 import org.zacharko.transaction.commission.service.rule.exchange.ExchangeService;
 
@@ -25,17 +26,21 @@ public class TransactionCommissionServiceImpl implements TransactionCommissionSe
    private final String defaultCurrency;
 
    private final Set<CommissionCalculationRule> commissionCalculationRules;
+   
+   private final TransactionService transactionService;
 
    public TransactionCommissionServiceImpl(ExchangeService exchangeService,
-                                           @Value("${transaction.commission.response.currency}") String defaultCurrency, Set<CommissionCalculationRule> commissionCalculationRules)
+                                           @Value("${transaction.commission.response.currency}") String defaultCurrency, Set<CommissionCalculationRule> commissionCalculationRules, TransactionService transactionService)
    {
       this.exchangeService = exchangeService;
       this.defaultCurrency = defaultCurrency;
       this.commissionCalculationRules = commissionCalculationRules;
+      this.transactionService = transactionService;
    }
 
    @Override
-   public TransactionCommissionResultDto calculate(TransactionCommissionDto commissionDto) throws CurrencyNotFoundException, ExchangeServiceUnreachableException
+   @SneakyThrows
+   public TransactionCommissionResultDto calculate(TransactionCommissionDto commissionDto)
    {
       exchangeCurrencyToDefault(commissionDto);
 
@@ -45,13 +50,21 @@ public class TransactionCommissionServiceImpl implements TransactionCommissionSe
             .min(Comparator.naturalOrder())
             .orElse(BigDecimal.ZERO);
 
+
+      // assuming that we calculate commission based on previous transaction not including current on
+      // It means in case with 1000 transaction per month current transaction is not included, so we save transaction date in database after calculation
+      // In practice need to confirm with business before implementing
+
+      transactionService.saveTransaction(TransactionMapper.map(commissionDto));
+
       return TransactionCommissionResultDto.builder()
             .amount(minCommission)
             .currency(defaultCurrency)
             .build();
    }
 
-   private void exchangeCurrencyToDefault(TransactionCommissionDto commissionDto) throws CurrencyNotFoundException, ExchangeServiceUnreachableException
+   @SneakyThrows
+   private void exchangeCurrencyToDefault(TransactionCommissionDto commissionDto)
    {
       if (commissionDto.getCurrency().equalsIgnoreCase(defaultCurrency)) {
          log.info("Transaction currency {} is default currency so don't need converting", commissionDto.getCurrency());

@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.zacharko.transaction.commission.dto.TransactionCommissionResultDto;
-import org.zacharko.transaction.commission.exception.CurrencyNotFoundException;
-import org.zacharko.transaction.commission.exception.ExchangeServiceUnreachableException;
 import org.zacharko.transaction.commission.service.TransactionCommissionService;
 
 import java.math.BigDecimal;
@@ -30,7 +28,7 @@ class TransactionCommissionServiceImplTest
    private String defaultCurrency;
 
    @Test
-   public void transactionCommissionService_calculate() throws ExchangeServiceUnreachableException, CurrencyNotFoundException
+   public void transactionCommissionService_calculate()
    {
       TransactionCommissionResultDto commissionResult = transactionCommissionService.calculate(transactionCommission_EUR_notVipClient());
 
@@ -39,7 +37,7 @@ class TransactionCommissionServiceImplTest
    }
 
    @Test
-   public void transactionCommissionService_calculate_smallAmount() throws ExchangeServiceUnreachableException, CurrencyNotFoundException
+   public void transactionCommissionService_calculate_smallAmount()
    {
       TransactionCommissionResultDto commissionResult = transactionCommissionService.calculate(transactionCommission_EUR_small_amount());
 
@@ -48,7 +46,7 @@ class TransactionCommissionServiceImplTest
    }
 
    @Test
-   public void transactionCommissionService_calculate_vipClient() throws ExchangeServiceUnreachableException, CurrencyNotFoundException
+   public void transactionCommissionService_calculate_vipClient()
    {
       TransactionCommissionResultDto commissionResult = transactionCommissionService.calculate(transactionCommission_EUR_VipClient());
 

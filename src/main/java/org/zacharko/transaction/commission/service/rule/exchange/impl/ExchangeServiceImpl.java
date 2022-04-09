@@ -1,11 +1,11 @@
 package org.zacharko.transaction.commission.service.rule.exchange.impl;
 
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.zacharko.transaction.commission.client.ExchangeRateClient;
 import org.zacharko.transaction.commission.client.ExchangeRateResult;
 import org.zacharko.transaction.commission.dto.TransactionCommissionDto;
 import org.zacharko.transaction.commission.exception.CurrencyNotFoundException;
-import org.zacharko.transaction.commission.exception.ExchangeServiceUnreachableException;
 import org.zacharko.transaction.commission.service.rule.exchange.ExchangeService;
 
 import java.math.BigDecimal;
@@ -20,7 +20,8 @@ public class ExchangeServiceImpl implements ExchangeService
       this.exchangeRateClient = exchangeRateClient;
    }
 
-   public BigDecimal getExchangedResult(TransactionCommissionDto commissionDto) throws CurrencyNotFoundException, ExchangeServiceUnreachableException
+   @SneakyThrows
+   public BigDecimal getExchangedResult(TransactionCommissionDto commissionDto)
    {
       ExchangeRateResult exchangeRates = exchangeRateClient.getExchangeRates();
       if (!exchangeRates.getRates().containsKey(commissionDto.getCurrency())) {

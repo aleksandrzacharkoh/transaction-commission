@@ -1,5 +1,6 @@
 package org.zacharko.transaction.commission.client.impl;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,8 @@ public class ExchangeRateClientImpl implements ExchangeRateClient
       this.exchangeClientURL = exchangeClientURL;
    }
 
-   public ExchangeRateResult getExchangeRates() throws ExchangeServiceUnreachableException
+   @SneakyThrows
+   public ExchangeRateResult getExchangeRates()
    {
       RestTemplate exchangeRateTemplate = new RestTemplate();
       log.info("Trying for get exchange rates from {}", exchangeClientURL);
