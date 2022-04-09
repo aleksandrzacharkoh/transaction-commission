@@ -27,12 +27,12 @@ public class TransactionCommissionDtoHelper
             .build();
    }
 
-   public static TransactionCommissionDto transactionCommission_EUR() {
+   public static TransactionCommissionDto transactionCommission_EUR_notVip() {
       return TransactionCommissionDto.builder()
             .date(LocalDate.now())
             .amount(new BigDecimal(100))
             .currency("EUR")
-            .clientId(42)
+            .clientId(43)
             .build();
    }
 
@@ -42,6 +42,24 @@ public class TransactionCommissionDtoHelper
             .amount(new BigDecimal(1))
             .currency("EUR")
             .clientId(42)
+            .build();
+   }
+
+   public static TransactionCommissionDto transactionCommission_EUR_VipClient() {
+      return TransactionCommissionDto.builder()
+            .date(LocalDate.now())
+            .amount(new BigDecimal(100))
+            .currency("EUR")
+            .clientId(42)
+            .build();
+   }
+
+   public static TransactionCommissionDto transactionCommission_EUR_notVipClient() {
+      return TransactionCommissionDto.builder()
+            .date(LocalDate.now())
+            .amount(new BigDecimal(100))
+            .currency("EUR")
+            .clientId(43)
             .build();
    }
 }

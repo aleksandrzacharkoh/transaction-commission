@@ -1,5 +1,6 @@
 package org.zacharko.transaction.commission.service.rule.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.zacharko.transaction.commission.dto.TransactionCommissionDto;
@@ -8,6 +9,7 @@ import org.zacharko.transaction.commission.service.rule.CommissionCalculationRul
 import java.math.BigDecimal;
 
 @Component
+@Slf4j
 public class DefaultPricingCommissionRule implements CommissionCalculationRule
 {
 
@@ -27,6 +29,8 @@ public class DefaultPricingCommissionRule implements CommissionCalculationRule
    public BigDecimal getCommission(TransactionCommissionDto commissionDto)
    {
       BigDecimal commission = commissionDto.getAmount().multiply(defaultCommissionPercentage);
-      return commission.compareTo(minimumCommissionAmount) > 0 ? commission : minimumCommissionAmount;
+      BigDecimal result = commission.compareTo(minimumCommissionAmount) > 0 ? commission : minimumCommissionAmount;
+      log.info("DefaultPricingCommissionRule: Commission for transaction data {} is {}", commissionDto, result);
+      return result;
    }
 }

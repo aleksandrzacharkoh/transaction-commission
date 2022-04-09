@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.zacharko.transaction.commission.helper.TransactionCommissionDtoHelper.transactionCommission_EUR;
+import static org.zacharko.transaction.commission.helper.TransactionCommissionDtoHelper.transactionCommission_EUR_notVip;
 import static org.zacharko.transaction.commission.helper.TransactionCommissionDtoHelper.transactionCommission_EUR_small_amount;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -20,14 +20,14 @@ class DefaultPricingCommissionRuleTest
    private DefaultPricingCommissionRule rule;
 
    @Test
-   public void DefaultPricingCommissionRule_getCommission_calculatedAmount() {
-      BigDecimal commission = rule.getCommission(transactionCommission_EUR());
+   public void defaultPricingCommissionRule_getCommission_calculatedAmount() {
+      BigDecimal commission = rule.getCommission(transactionCommission_EUR_notVip());
 
       assertEquals(0, new BigDecimal("0.5").compareTo(commission));
    }
 
    @Test
-   public void DefaultPricingCommissionRule_getCommission_minAmount() {
+   public void defaultPricingCommissionRule_getCommission_minAmount() {
       BigDecimal commission = rule.getCommission(transactionCommission_EUR_small_amount());
 
       assertEquals(0, new BigDecimal("0.05").compareTo(commission));
