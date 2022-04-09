@@ -23,7 +23,7 @@ public class ExchangeServiceImpl implements ExchangeService
    @SneakyThrows
    public BigDecimal getExchangedResult(TransactionCommissionDto commissionDto)
    {
-      ExchangeRateResult exchangeRates = exchangeRateClient.getExchangeRates();
+      ExchangeRateResult exchangeRates = exchangeRateClient.getExchangeRates(commissionDto.getDate());
       if (!exchangeRates.getRates().containsKey(commissionDto.getCurrency())) {
          throw new CurrencyNotFoundException(commissionDto.getCurrency());
       }

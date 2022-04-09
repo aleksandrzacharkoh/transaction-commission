@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.zacharko.transaction.commission.helper.ExchangeRateHelper.exchangeRates;
 import static org.zacharko.transaction.commission.helper.TransactionCommissionDtoHelper.transactionCommission_RUR;
@@ -46,7 +47,7 @@ public class ExchangeServiceTest
    public void exchangeService_currencyNotFound()
    {
       // given
-      BDDMockito.given(exchangeRateClient.getExchangeRates())
+      BDDMockito.given(exchangeRateClient.getExchangeRates(any()))
             .willReturn(exchangeRates());
       TransactionCommissionDto commissionDto = transactionCommission_RUR();
 
@@ -63,7 +64,7 @@ public class ExchangeServiceTest
    public void exchangeService_currencyFound()
    {
       // given
-      BDDMockito.given(exchangeRateClient.getExchangeRates())
+      BDDMockito.given(exchangeRateClient.getExchangeRates(any()))
             .willReturn(exchangeRates());
       TransactionCommissionDto commissionDto = transactionCommission_USD();
 
