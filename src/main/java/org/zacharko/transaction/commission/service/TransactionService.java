@@ -13,5 +13,4 @@ public interface TransactionService
 
    List<TransactionDao> getClientTransactionForLastMonth(Integer clientId);
 
-   void deleteAll();
 }

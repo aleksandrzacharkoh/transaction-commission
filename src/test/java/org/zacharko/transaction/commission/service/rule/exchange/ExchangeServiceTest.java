@@ -12,7 +12,6 @@ import org.zacharko.transaction.commission.client.ExchangeRateClient;
 import org.zacharko.transaction.commission.client.impl.ExchangeRateClientImpl;
 import org.zacharko.transaction.commission.dto.TransactionCommissionDto;
 import org.zacharko.transaction.commission.exception.CurrencyNotFoundException;
-import org.zacharko.transaction.commission.exception.ExchangeServiceUnreachableException;
 import org.zacharko.transaction.commission.service.rule.exchange.impl.ExchangeServiceImpl;
 
 import java.math.BigDecimal;
@@ -44,7 +43,7 @@ public class ExchangeServiceTest
 
    // TODO rewrite test
    @Test
-   public void exchangeService_currencyNotFound() throws ExchangeServiceUnreachableException
+   public void exchangeService_currencyNotFound()
    {
       // given
       BDDMockito.given(exchangeRateClient.getExchangeRates())
@@ -61,7 +60,7 @@ public class ExchangeServiceTest
    }
 
    @Test
-   public void exchangeService_currencyFound() throws CurrencyNotFoundException, ExchangeServiceUnreachableException
+   public void exchangeService_currencyFound()
    {
       // given
       BDDMockito.given(exchangeRateClient.getExchangeRates())

@@ -38,9 +38,4 @@ public class TransactionServiceImpl implements TransactionService
       return repository.getTransactionDaoByClientIdAndDateAfter(clientId, lastMonthDate);
    }
 
-   @Override
-   public void deleteAll()
-   {
-      repository.deleteAll();
-   }
 }
