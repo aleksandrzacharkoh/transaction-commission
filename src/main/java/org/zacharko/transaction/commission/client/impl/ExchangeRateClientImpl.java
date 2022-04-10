@@ -20,19 +20,21 @@ public class ExchangeRateClientImpl implements ExchangeRateClient
 {
    private final String exchangeClientURL;
 
-   public ExchangeRateClientImpl(@Value("${transaction.commission.exchange.client.url}") String exchangeClientURL)
+   private final RestTemplate restTemplate;
+
+   public ExchangeRateClientImpl(@Value("${transaction.commission.exchange.client.url}") String exchangeClientURL, RestTemplate restTemplate)
    {
       this.exchangeClientURL = exchangeClientURL;
+      this.restTemplate = restTemplate;
    }
 
    @SneakyThrows
    @Cacheable("exchangeRates")
    public ExchangeRateResult getExchangeRates(LocalDate date)
    {
-      RestTemplate exchangeRateTemplate = new RestTemplate();
       log.info("Trying for get exchange rates from {}", exchangeClientURL);
       String fullUrl = exchangeClientURL + DateTimeFormatter.ISO_LOCAL_DATE.format(date);
-      Optional<ExchangeRateResult> exchangeRates = Optional.ofNullable(exchangeRateTemplate.getForObject(fullUrl , ExchangeRateResult.class));
+      Optional<ExchangeRateResult> exchangeRates = Optional.ofNullable(restTemplate.getForObject(fullUrl , ExchangeRateResult.class));
       if (exchangeRates.isPresent())
       {
          log.info("Exchange rates result status {}", exchangeRates.get().getSuccess());

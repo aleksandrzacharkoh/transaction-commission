@@ -4,40 +4,38 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.zacharko.transaction.commission.dto.TransactionCommissionDto;
 import org.zacharko.transaction.commission.helper.TransactionDaoHelper;
 import org.zacharko.transaction.commission.service.TransactionService;
+import org.zacharko.transaction.commission.service.impl.TransactionServiceImpl;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.mockito.Mockito.mock;
 import static org.zacharko.transaction.commission.helper.TransactionCommissionDtoHelper.transactionCommission_EUR_VipClient;
 import static org.zacharko.transaction.commission.helper.TransactionCommissionDtoHelper.transactionCommission_EUR_notVipClient;
 import static org.zacharko.transaction.commission.helper.TransactionDaoHelper.transaction1;
 
 @RunWith(MockitoJUnitRunner.class)
-@SpringBootTest
 class HighTurnoverCommissionRuleTest
 {
 
-   @InjectMocks
    private HighTurnoverCommissionRule rule;
 
-   @Mock
    private TransactionService transactionService;
 
-   private BigDecimal highTurnoverLimit = new BigDecimal("1000");
+   private final BigDecimal highTurnoverLimit = new BigDecimal("1000");
 
-   private BigDecimal highTurnoverCommission = new BigDecimal("0.03");
+   private final BigDecimal highTurnoverCommission = new BigDecimal("0.03");
+
 
    @BeforeEach
    public void setup() {
+      transactionService = mock(TransactionServiceImpl.class);
       rule = new HighTurnoverCommissionRule(highTurnoverLimit, highTurnoverCommission, transactionService);
    }
 

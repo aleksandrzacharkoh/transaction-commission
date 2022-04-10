@@ -1,10 +1,9 @@
 package org.zacharko.transaction.commission.service.rule.impl;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
 
@@ -12,12 +11,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.zacharko.transaction.commission.helper.TransactionCommissionDtoHelper.transactionCommission_EUR_notVip;
 import static org.zacharko.transaction.commission.helper.TransactionCommissionDtoHelper.transactionCommission_EUR_small_amount;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
 class DefaultPricingCommissionRuleTest
 {
-   @Autowired
+   private final BigDecimal minimumCommissionAmount = new BigDecimal("0.05");
+
+   private final BigDecimal defaultCommissionPercentage = new BigDecimal("0.005");
+
    private DefaultPricingCommissionRule rule;
+
+   @BeforeEach
+   public void setup() {
+      rule = new DefaultPricingCommissionRule(minimumCommissionAmount, defaultCommissionPercentage);
+   }
 
    @Test
    public void defaultPricingCommissionRule_getCommission_calculatedAmount() {
