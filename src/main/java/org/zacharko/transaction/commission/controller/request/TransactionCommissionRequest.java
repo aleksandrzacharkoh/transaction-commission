@@ -3,20 +3,20 @@ package org.zacharko.transaction.commission.controller.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class TransactionCommissionRequest
 {
 
-   @NotEmpty
+   @NotNull
    private String date;
-   @NotEmpty
+   @NotNull
    private String amount;
-   @NotEmpty
+   @NotNull
    private String currency;
 
-   @NotEmpty
+   @NotNull
    @JsonProperty("client_id")
    private Integer clientId;
 }

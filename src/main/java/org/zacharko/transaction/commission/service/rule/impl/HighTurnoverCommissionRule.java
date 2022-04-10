@@ -36,10 +36,10 @@ public class HighTurnoverCommissionRule implements CommissionCalculationRule
       BigDecimal result;
       BigDecimal transactionAmountForLastMonth = getTransactionAmountForLastMonth(commissionDto.getClientId());
       if (transactionAmountForLastMonth.compareTo(highTurnoverLimit) > 0) {
-         log.info("Client with id {} reach high turnover limit", commissionDto.getClientId());
+         log.info("Client with id {} reach high turnover limit now is {}", commissionDto.getClientId(), transactionAmountForLastMonth);
          result = highTurnoverCommission;
       } else {
-         log.info("Client with id {} reach high turnover limit", commissionDto.getClientId());
+         log.info("Client with id {} don't reach high turnover limit, now is {}", commissionDto.getClientId(), transactionAmountForLastMonth);
          result = new BigDecimal("100000000000000000000"); // TODO This value is a big that can be bigger than another rules. But it can cause a bugs, so need to change approach
       }
       log.info("HighTurnoverCommissionRule: Commission for transaction data {} is {}", commissionDto, result);
