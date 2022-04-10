@@ -6,6 +6,7 @@ import org.zacharko.transaction.commission.dto.TransactionCommissionDto;
 import org.zacharko.transaction.commission.dto.TransactionCommissionResultDto;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 public class TransactionCommissionMapper
@@ -21,6 +22,6 @@ public class TransactionCommissionMapper
    }
 
    public static TransactionCommissionResponse mapToResponse(TransactionCommissionResultDto dto) {
-      return new TransactionCommissionResponse(dto.getAmount().setScale(2), dto.getCurrency());
+      return new TransactionCommissionResponse(dto.getAmount().setScale(2, RoundingMode.HALF_UP), dto.getCurrency());
    }
 }

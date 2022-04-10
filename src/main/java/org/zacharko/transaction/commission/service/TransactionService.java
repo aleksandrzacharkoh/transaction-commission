@@ -2,6 +2,7 @@ package org.zacharko.transaction.commission.service;
 
 import org.zacharko.transaction.commission.db.entity.TransactionDao;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface TransactionService
@@ -11,6 +12,6 @@ public interface TransactionService
 
    List<TransactionDao> getAllTransactions();
 
-   List<TransactionDao> getClientTransactionForLastMonth(Integer clientId);
+   List<TransactionDao> getClientTransactionForCurrentMonth(LocalDate date, Integer clientId);
 
 }

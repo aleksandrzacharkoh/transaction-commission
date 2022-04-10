@@ -6,7 +6,6 @@ import org.zacharko.transaction.commission.db.repository.TransactionRepository;
 import org.zacharko.transaction.commission.service.TransactionService;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -32,9 +31,9 @@ public class TransactionServiceImpl implements TransactionService
    }
 
    @Override
-   public List<TransactionDao> getClientTransactionForLastMonth(Integer clientId)
+   public List<TransactionDao> getClientTransactionForCurrentMonth(LocalDate date, Integer clientId)
    {
-      LocalDate lastMonthDate = LocalDate.now().minus(1, ChronoUnit.MONTHS);
+      LocalDate lastMonthDate = date.withDayOfMonth(1);  //
       return repository.getTransactionDaoByClientIdAndDateAfter(clientId, lastMonthDate);
    }
 

@@ -10,6 +10,7 @@ import org.zacharko.transaction.commission.db.entity.TransactionDao;
 import org.zacharko.transaction.commission.helper.TransactionDaoHelper;
 import org.zacharko.transaction.commission.service.TransactionService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -47,7 +48,7 @@ public class TransactionServiceImplTest
       transactionService.saveTransaction(TransactionDaoHelper.transaction1());
       transactionService.saveTransaction(TransactionDaoHelper.transaction2());
       transactionService.saveTransaction(TransactionDaoHelper.transactionOld());
-      List<TransactionDao> allTransactions = transactionService.getClientTransactionForLastMonth(clientId);
+      List<TransactionDao> allTransactions = transactionService.getClientTransactionForCurrentMonth(LocalDate.now(), clientId);
       assertEquals(3, allTransactions.size());
    }
 

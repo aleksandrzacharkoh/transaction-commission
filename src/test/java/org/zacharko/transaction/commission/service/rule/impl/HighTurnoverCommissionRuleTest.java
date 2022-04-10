@@ -43,7 +43,7 @@ class HighTurnoverCommissionRuleTest
    public void highTurnoverCommissionRule_getCommission_reachLimit() {
       TransactionCommissionDto commissionDto = transactionCommission_EUR_VipClient();
 
-      BDDMockito.when(transactionService.getClientTransactionForLastMonth(commissionDto.getClientId()))
+      BDDMockito.when(transactionService.getClientTransactionForCurrentMonth(commissionDto.getDate(), commissionDto.getClientId()))
             .thenReturn(Arrays.asList(transaction1(), TransactionDaoHelper.transaction2()));
       BigDecimal commission = rule.getCommission(commissionDto);
 

@@ -9,6 +9,7 @@ import org.zacharko.transaction.commission.service.TransactionService;
 import org.zacharko.transaction.commission.service.rule.CommissionCalculationRule;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Component
 @Slf4j
@@ -34,7 +35,7 @@ public class HighTurnoverCommissionRule implements CommissionCalculationRule
    public BigDecimal getCommission(TransactionCommissionDto commissionDto)
    {
       BigDecimal result;
-      BigDecimal transactionAmountForLastMonth = getTransactionAmountForLastMonth(commissionDto.getClientId());
+      BigDecimal transactionAmountForLastMonth = getTransactionAmountForLastMonth(commissionDto.getDate(), commissionDto.getClientId());
       if (transactionAmountForLastMonth.compareTo(highTurnoverLimit) > 0) {
          log.info("Client with id {} reach high turnover limit now is {}", commissionDto.getClientId(), transactionAmountForLastMonth);
          result = highTurnoverCommission;
@@ -46,8 +47,8 @@ public class HighTurnoverCommissionRule implements CommissionCalculationRule
       return result;
    }
 
-   private BigDecimal getTransactionAmountForLastMonth(Integer clientId) {
-      return transactionService.getClientTransactionForLastMonth(clientId)
+   private BigDecimal getTransactionAmountForLastMonth(LocalDate date, Integer clientId) {
+      return transactionService.getClientTransactionForCurrentMonth(date, clientId)
             .stream()
             .map(TransactionDao::getAmount)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
